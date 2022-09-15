@@ -9,7 +9,7 @@ from .auth.auth import AuthError, requires_auth
 
 app = Flask(__name__)
 setup_db(app)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 '''
 @TODO uncomment the following line to initialize the datbase
@@ -18,6 +18,14 @@ CORS(app)
 !! Running this funciton will add one
 '''
 # db_drop_and_create_all()
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Headers',
+                            'Content-Type, Authorization')
+    response.headers.add('Access-Control-Allow-Headers',
+                            'GET, POST, PATCH, DELETE, OPTIONS')
+    return response
 
 # ROUTES
 '''
@@ -136,7 +144,7 @@ def delete_drink(drink_id):
         'success': True,
         'deleted': drink_id
     })
-    
+
 # Error Handling
 '''
 Example error handling for unprocessable entity
