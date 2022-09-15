@@ -199,3 +199,11 @@ def not_found(error):
 @TODO implement error handler for AuthError
     error handler should conform to general task above
 '''
+@app.errorhandler(AuthError)
+def authentication_error(error):
+    return jsonify({
+        'success': False,
+        'error': error.status_code,
+        'code': error.error.get('code'),
+        'description': error.error.get('description')
+    }), error.status_code
