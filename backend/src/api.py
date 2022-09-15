@@ -149,24 +149,6 @@ def delete_drink(drink_id):
 '''
 Example error handling for unprocessable entity
 '''
-
-
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({
-        'success': False,
-        'error': 404,
-        'message': 'requested resource not found'
-    }), 404
-
-@app.errorhandler(405)
-def not_found(error):
-    return jsonify({
-        'success': False,
-        'error': 405,
-        'message': 'method not allowed'
-    }), 405
-
 @app.errorhandler(422)
 def unporcessable(error):
     return jsonify({
@@ -174,15 +156,6 @@ def unporcessable(error):
         'error': 422,
         'message': 'unprocessable'
     }), 422
-
-@app.errorhandler(500)
-def not_found(error):
-    return jsonify({
-        'success': False,
-        'error': 500,
-        'message': 'internal server error'
-    }), 500
-
 
 '''
 @TODO implement error handlers using the @app.errorhandler(error) decorator
@@ -194,12 +167,33 @@ def not_found(error):
                     }), 404
 
 '''
+@app.errorhandler(405)
+def not_found(error):
+    return jsonify({
+        'success': False,
+        'error': 405,
+        'message': 'method not allowed'
+    }), 405
+
+@app.errorhandler(500)
+def not_found(error):
+    return jsonify({
+        'success': False,
+        'error': 500,
+        'message': 'internal server error'
+    }), 500
 
 '''
 @TODO implement error handler for 404
     error handler should conform to general task above
 '''
-
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+        'success': False,
+        'error': 404,
+        'message': 'requested resource not found'
+    }), 404
 
 '''
 @TODO implement error handler for AuthError
