@@ -29,6 +29,7 @@ CORS(app)
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks')
+@requires_auth('get:drinks')
 def retrieve_drinks():
     drinks = {drink.id: drink.short() for drink in Drink.query.all()}
 
@@ -46,6 +47,7 @@ def retrieve_drinks():
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks-detail')
+@requires_auth('get:drinks-detail')
 def retrieve_drink_details():
     drinks = {drink.id: drink.long() for drink in Drink.query.all()}
 
