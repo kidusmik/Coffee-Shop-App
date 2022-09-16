@@ -62,7 +62,10 @@ def retrieve_drinks(token):
 @app.route('/drinks-detail')
 @requires_auth('get:drinks-detail')
 def retrieve_drink_details(token):
-    drinks = {drink.id: drink.long() for drink in Drink.query.all()}
+    all_drinks = Drink.query.all()
+    if not all_drinks:
+        abort(404)
+    drinks = {drink.id: drink.long() for drink in all_drinks}
 
     return jsonify({
         'success': True,
