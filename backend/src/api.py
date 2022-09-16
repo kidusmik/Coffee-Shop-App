@@ -17,7 +17,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 !! Running this funciton will add one
 '''
-# db_drop_and_create_all()
+db_drop_and_create_all()
 
 @app.after_request
 def after_request(response):
@@ -38,8 +38,13 @@ def after_request(response):
 '''
 @app.route('/drinks')
 @requires_auth('get:drinks')
-def retrieve_drinks():
-    drinks = {drink.id: drink.short() for drink in Drink.query.all()}
+def retrieve_drinks(token):
+    all_drinks = Drink.query.all()
+
+    if not all_drinks:
+        abort(404)
+
+    drinks = {drink.id: drink.short() for drink in all_drinks}
 
     return jsonify({
         'success': True,
@@ -56,7 +61,7 @@ def retrieve_drinks():
 '''
 @app.route('/drinks-detail')
 @requires_auth('get:drinks-detail')
-def retrieve_drink_details():
+def retrieve_drink_details(token):
     drinks = {drink.id: drink.long() for drink in Drink.query.all()}
 
     return jsonify({
@@ -75,7 +80,7 @@ def retrieve_drink_details():
 '''
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
-def add_drinks():
+def add_drinks(token):
     body = request.get_json()
     title = body.get('title', None)
     recipe = body.get('recipe', None)
