@@ -40,10 +40,8 @@ def after_request(response):
 @requires_auth('get:drinks')
 def retrieve_drinks(token):
     all_drinks = Drink.query.all()
-
     if not all_drinks:
         abort(404)
-
     drinks = {drink.id: drink.short() for drink in all_drinks}
 
     return jsonify({
@@ -112,12 +110,9 @@ def add_drinks(token):
 @requires_auth('patch:drinks')
 def update_existing_drink(drink_id):
     drink = Drink.query.filter(Drink.id==drink_id).one_or_none()
-
     if not drink:
         abort(404)
-
     body = request.get_json()
-
     drink.title = body.get('title')
     drink.recipe = body.get('recipe')
     drink.update()
@@ -142,10 +137,8 @@ def update_existing_drink(drink_id):
 @requires_auth('delete:drinks')
 def delete_drink(drink_id):
     drink = Drink.query.filter(Drink.id==drink_id).one_or_none()
-
     if not drink:
         abort(404)
-
     drink.delete()
 
     return jsonify({
