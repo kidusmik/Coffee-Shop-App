@@ -212,6 +212,5 @@ def authentication_error(error):
     return jsonify({
         'success': False,
         'error': error.status_code,
-        'code': error.error.get('code'),
-        'description': error.error.get('description')
+        'message': error.error.get('description')
     }), error.status_code
