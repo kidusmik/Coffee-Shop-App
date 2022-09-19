@@ -150,7 +150,7 @@ def update_existing_drink(token, drink_id):
 '''
 @app.route('/drinks/<int:drink_id>', methods=['DELETE'])
 @requires_auth('delete:drinks')
-def delete_drink(drink_id):
+def delete_drink(token, drink_id):
     drink = Drink.query.filter(Drink.id==drink_id).one_or_none()
     if not drink:
         abort(404)
