@@ -30,6 +30,16 @@ This will install all of the required packages we selected within the `requireme
 
 - [jose](https://python-jose.readthedocs.io/en/latest/) JavaScript Object Signing and Encryption for JWTs. Useful for encoding, decoding, and verifying JWTS.
 
+## Set up the Database
+
+This app uses a simple database for interaction, simply uncomment the line:
+
+```python
+# db_drop_and_create_all()
+```
+
+This will initialize the database, only uncomment this the first time running the app and comment it out again so that it doesn't initialize it again which will drop and recreate the database.
+
 ## Running the server
 
 From within the `./src` directory first ensure you are working using your created virtual environment.
@@ -37,8 +47,12 @@ From within the `./src` directory first ensure you are working using your create
 Each time you open a new terminal session, run:
 
 ```bash
-export FLASK_APP=api.py;
+export FLASK_APP=api.py
+export FLASK_ENV=development
+flask run
 ```
+
+These commands put the application in development and directs our application to use the `api.py` file. Working in development mode shows an interactive debugger in the console and restarts the server whenever changes are made. If running locally on Windows, look for the commands in the [Flask documentation](https://flask.palletsprojects.com/en/1.0.x/tutorial/factory/).
 
 To run the server, execute:
 
@@ -46,10 +60,168 @@ To run the server, execute:
 flask run --reload
 ```
 
-The `--reload` flag will detect file changes and restart the server automatically.
+Or alternatively, execute:
 
-## Tasks
+```bash
+export FLASK_APP=api.py
+flask --reloadrun
+```
+ 
+ The `--reload` flag will detect file changes and restart the server automatically.
 
+
+## API Reference
+
+### Getting Started
+- Base URL: Currently the app can only be run locally and is not hosted at a base URL. The default backend host address is `127.0.0.1:5000`
+
+- Authentication: The API requires authentication of users.
+
+### Error Handling
+
+The API handles Authorization, Resource and Server errors.
+
+#### Authorization Error Handling
+
+The API will return these errors when authorization fails:
+- 400: Bad Request
+- 401: Unauthorized
+- 403: Forbidden
+
+Errors are returned as JSON objects in the following format:
+
+```json
+{
+    "success": false,
+    "error": 400,
+    "message": "Error decoding token headers."
+}
+```
+```json
+{
+    "success": false,
+    "error": 400,
+    "message": "Unable to parse authentication token."
+}
+```
+```json
+{
+    "success": false,
+    "error": 400,
+    "message": "Unable to find the appropriate key."
+}
+```
+```json
+{
+    "success": false,
+    "error": 400,
+    "message": "Permissions not included in JWT."
+}
+```
+
+
+```json
+{
+    "success": false,
+    "error": 401,
+    "message": "Authorization header is expected."
+}
+```
+```json
+{
+    "success": false,
+    "error": 401,
+    "message": "Authorization header must start with 'Bearer'"
+}
+```
+```json
+{
+    "success": false,
+    "error": 401,
+    "message": "Token not found."
+}
+```
+```json
+{
+    "success": false,
+    "error": 401,
+    "message": "Authorization header must be bearer token."
+}
+```
+```json
+{
+    "success": false,
+    "error": 401,
+    "message": "Authorization malformed."
+}
+```
+```json
+{
+    "success": false,
+    "error": 401,
+    "message": "Token expired."
+}
+```
+```json
+{
+    "success": false,
+    "error": 401,
+    "message": "Incorrect claims. Please, check the audience and issuer."
+}
+```
+
+
+```json
+{
+    "success": false,
+    "error": 403,
+    "message": "Permission not found."
+}
+```
+
+#### Resource Error Handling
+The API will return these errors when resource request fails:
+- 404: Resource could not be found
+- 405: Method not allowed
+- 422: Unprocessable
+
+Errors are returned as JSON objects in the following format:
+
+```json
+{
+    "success": false,
+    "error": 404,
+    "message": "resource could not be found"
+}
+```
+```json
+{
+    "success": false,
+    "error": 405,
+    "message": "method not allowed"
+}
+```
+```json
+{
+    "success": false,
+    "error": 422,
+    "message": "unprocessable"
+}
+```
+
+#### Server Error Handling
+The API will returns this error for server error:
+- 500: Internal Server Error
+
+Errors are returned as JSON objects in the following format:
+
+```json
+{
+    "success": false,
+    "error": 500,
+    "message": "internal server error"
+}
+```
 ### Setup Auth0
 
 1. Create a new Auth0 Account
