@@ -452,5 +452,5 @@ The app uses Auth0 authentication, with `five` permissions and `two` roles.
 The endpoints are tested with [Postman](https://getpostman.com).
 
 To run the tests:
-- Import the postman collection `./udacity-fsnd-udaspicelatte.postman_collection.json`
+- Import the postman collection `./udacity-fsnd-udaspicelatte-kidus.postman_collection`
 - Run the collection
