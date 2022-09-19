@@ -43,8 +43,7 @@ def after_request(response):
 
 
 @app.route('/drinks')
-@requires_auth('get:drinks')
-def retrieve_drinks(token):
+def retrieve_drinks():
     all_drinks = Drink.query.all()
     if not all_drinks:
         abort(404)
@@ -102,8 +101,8 @@ def add_drinks(token):
 
     try:
         if title == '' or title is None\
-            or recipe_json is None\
-                or not isinstance(recipe_json, list):
+                or recipe_json is None\
+                    or not isinstance(recipe_json, list):
             raise ValueError
 
         recipe = json.dumps(recipe_json)
@@ -114,7 +113,7 @@ def add_drinks(token):
 
     return jsonify({
         'success': True,
-        'drinks': drink.long(),
+        'drinks': [drink.long()],
         'created': drink.id
     })
 
@@ -136,22 +135,23 @@ def add_drinks(token):
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
 def update_existing_drink(token, drink_id):
-    print('drink id is: ', drink_id)
     drink = Drink.query.filter(Drink.id == drink_id).one_or_none()
     if not drink:
         abort(404)
     body = request.get_json()
-    updated_title = body.get('title')
-    updated_recipe = body.get('recipe')
-    print('Updated recipe type: ', type(updated_recipe))
-
-    drink.title = updated_title
-    drink.recipe = json.dumps(updated_recipe)
+    title = body.get('title', None)
+    recipe = body.get('recipe', None)
+    if title is None and recipe is None:
+        abort(422)
+    if title:
+        drink.title = title
+    if recipe:
+        drink.recipe = recipe
     drink.update()
 
     return jsonify({
         'success': True,
-        'drinks': drink.long(),
+        'drinks': [drink.long()],
         'updated': drink.id
     })
 
