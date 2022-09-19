@@ -16,8 +16,9 @@ Developers using this project should already have Python3, pip and node installe
 From the backend folder run `pip install requirements.txt`. All required packages are included in the requirements file. 
 
 To run the application run the following commands: 
-```
-export FLASK_APP=flaskr
+
+```bash
+export FLASK_APP=api.py
 export FLASK_ENV=development
 flask run
 ```
@@ -31,7 +32,8 @@ The application is run on `http://127.0.0.1:5000/` by default and is a proxy in 
 #### Frontend
 
 The `./frontend` directory contains a complete Ionic frontend to consume the data from the Flask server. From the frontend folder, run the following commands to start the client: 
-```
+
+```bash
 npm install // only once to install dependencies
 npm install -g @ionic/cli
 ionic serve
