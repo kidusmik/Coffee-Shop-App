@@ -222,6 +222,209 @@ Errors are returned as JSON objects in the following format:
     "message": "internal server error"
 }
 ```
+
+### Endpoints
+
+#### GET /drinks
+- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Request Arguments: None
+- Returns: An object with two keys, `success` with value `True` and `categories`, that contains an object of `id: category_string` key: value pairs.
+- `curl 127.0.0.1:5000/drinks -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
+
+```json
+{
+  "drinks": [
+    {
+      "id": 1, 
+      "recipe": [
+        {
+          "color": "blue", 
+          "parts": 1
+        }
+      ], 
+      "title": "water"
+    }, 
+    {
+      "id": 2, 
+      "recipe": [
+        {
+          "color": "grey", 
+          "parts": 1
+        }, 
+        {
+          "color": "brown", 
+          "parts": 3
+        }
+      ], 
+      "title": "Machiatto"
+    }, 
+    {
+      "id": 3, 
+      "recipe": [
+        {
+          "color": "brown", 
+          "parts": 1
+        }
+      ], 
+      "title": "Arabica"
+    }, 
+    {
+      "id": 4, 
+      "recipe": [
+        {
+          "color": "brown", 
+          "parts": 1
+        }, 
+        {
+          "color": "grey", 
+          "parts": 1
+        }
+      ], 
+      "title": "Espresso"
+    }
+  ], 
+  "success": true
+}
+```
+
+#### GET /drinks-details
+- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Request Arguments: None
+- Returns: An object with two keys, `success` with value `True` and `categories`, that contains an object of `id: category_string` key: value pairs.
+- `curl 127.0.0.1:5000/drinks-detail -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
+
+```json
+{
+  "drinks": [
+    {
+      "id": 1, 
+      "recipe": [
+        {
+          "color": "blue", 
+          "name": "water", 
+          "parts": 1
+        }
+      ], 
+      "title": "water"
+    }, 
+    {
+      "id": 2, 
+      "recipe": [
+        {
+          "color": "grey", 
+          "name": "Milk", 
+          "parts": 1
+        }, 
+        {
+          "color": "brown", 
+          "name": "Coffee", 
+          "parts": 3
+        }
+      ], 
+      "title": "Machiatto"
+    }, 
+    {
+      "id": 3, 
+      "recipe": [
+        {
+          "color": "brown", 
+          "name": "Coffee", 
+          "parts": 1
+        }
+      ], 
+      "title": "Arabica"
+    }, 
+    {
+      "id": 4, 
+      "recipe": [
+        {
+          "color": "brown", 
+          "name": "Coffee", 
+          "parts": 1
+        }, 
+        {
+          "color": "grey", 
+          "name": "Milk", 
+          "parts": 1
+        }
+      ], 
+      "title": "Espresso"
+    }
+  ], 
+  "success": true
+}
+```
+
+#### POST /drinks
+- General:
+    - Creates a new question using the submitted `question`, `answer`, `category` and `difficulty` values. On success it returns a success value and a message. If any of the keys is missing or any of the values is either empty string or `None` it returns an error with code `422`. 
+
+- `curl 127.0.0.1:5000/drinks -X POST -H "Content-Type: application/json" -d '{"id": 2, "recipe": [{"color": "grey", "name": "Milk", "parts": 1}, {"color": "brown", "name": "Coffee", "parts": 3}], "title": "Machiatto"}' -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
+
+Returns success:
+```json
+{
+  "created": 2, 
+  "drinks": [
+    {
+      "id": 2, 
+      "recipe": [
+        {
+          "color": "grey", 
+          "name": "Milk", 
+          "parts": 1
+        }, 
+        {
+          "color": "brown", 
+          "name": "Coffee", 
+          "parts": 3
+        }
+      ], 
+      "title": "Machiatto"
+    }
+  ], 
+  "success": true
+}
+```
+
+#### PATCH /drinks/{drink_id}
+- General:
+    - Updates the question of the given ID if it exists, Returns success value and a message.
+    
+- `curl -X PATCH http://127.0.0.1:5000/drinks/1 -H "Content-Type: application/json" -d '{"title": "Not Water"}' -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
+
+```json
+{
+  "drinks": [
+    {
+      "id": 1, 
+      "recipe": [
+        {
+          "color": "blue", 
+          "name": "water", 
+          "parts": 1
+        }
+      ], 
+      "title": "Not Water"
+    }
+  ], 
+  "success": true, 
+  "updated": 1
+}
+```
+
+#### DELETE /drinks/{drink_id}
+- General:
+    - Deletes the drink of the given ID if it exists, Returns success value and a message.
+    
+- `curl -X DELETE http://127.0.0.1:5000/drinks/1 -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
+
+```json
+{
+  "deleted": 1, 
+  "success": true
+}
+```
 ### Setup Auth0
 
 1. Create a new Auth0 Account
