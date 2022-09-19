@@ -54,17 +54,11 @@ flask run
 
 These commands put the application in development and directs our application to use the `api.py` file. Working in development mode shows an interactive debugger in the console and restarts the server whenever changes are made. If running locally on Windows, look for the commands in the [Flask documentation](https://flask.palletsprojects.com/en/1.0.x/tutorial/factory/).
 
-To run the server, execute:
-
-```bash
-flask run --reload
-```
-
 Or alternatively, execute:
 
 ```bash
 export FLASK_APP=api.py
-flask --reloadrun
+flask --reload
 ```
  
  The `--reload` flag will detect file changes and restart the server automatically.
