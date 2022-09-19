@@ -359,7 +359,7 @@ Errors are returned as JSON objects in the following format:
 - General:
     - Creates a new question using the submitted `question`, `answer`, `category` and `difficulty` values. On success it returns a success value and a message. If any of the keys is missing or any of the values is either empty string or `None` it returns an error with code `422`. 
 
-- `curl 127.0.0.1:5000/drinks -X POST -H "Content-Type: application/json" -d '{"id": 2, "recipe": [{"color": "grey", "name": "Milk", "parts": 1}, {"color": "brown", "name": "Coffee", "parts": 3}], "title": "Machiatto"}' -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
+- `curl 127.0.0.1:5000/drinks -X POST -H "Content-Type: application/json" -d '{"recipe": [{"color": "grey", "name": "Milk", "parts": 1}, {"color": "brown", "name": "Coffee", "parts": 3}], "title": "Machiatto"}' -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
 
 Returns success:
 ```json
@@ -425,38 +425,32 @@ Returns success:
   "success": true
 }
 ```
-### Setup Auth0
 
-1. Create a new Auth0 Account
-2. Select a unique tenant domain
-3. Create a new, single page web application
-4. Create a new API
-   - in API Settings:
-     - Enable RBAC
-     - Enable Add Permissions in the Access Token
-5. Create new API permissions:
+## Authentication Reference
+
+The app uses Auth0 authentication, with `five` permissions and `two` roles.
+
+### Permissions
+
    - `get:drinks`
    - `get:drinks-detail`
    - `post:drinks`
    - `patch:drinks`
    - `delete:drinks`
-6. Create new roles for:
+
+### Roles
+
    - Barista
      - can `get:drinks-detail`
      - can `get:drinks`
+
    - Manager
      - can perform all actions
-7. Test your endpoints with [Postman](https://getpostman.com).
-   - Register 2 users - assign the Barista role to one and Manager role to the other.
-   - Sign into each account and make note of the JWT.
-   - Import the postman collection `./starter_code/backend/udacity-fsnd-udaspicelatte.postman_collection.json`
-   - Right-clicking the collection folder for barista and manager, navigate to the authorization tab, and including the JWT in the token field (you should have noted these JWTs).
-   - Run the collection and correct any errors.
-   - Export the collection overwriting the one we've included so that we have your proper JWTs during review!
 
-### Implement The Server
+## Testing
 
-There are `@TODO` comments throughout the `./backend/src`. We recommend tackling the files in order and from top to bottom:
+The endpoints are tested with [Postman](https://getpostman.com).
 
-1. `./src/auth/auth.py`
-2. `./src/api.py`
+To run the tests:
+- Import the postman collection `./udacity-fsnd-udaspicelatte.postman_collection.json`
+- Run the collection
