@@ -17,7 +17,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 !! Running this funciton will add one
 '''
-db_drop_and_create_all()
+# db_drop_and_create_all()
 
 @app.after_request
 def after_request(response):
@@ -42,7 +42,7 @@ def retrieve_drinks(token):
     all_drinks = Drink.query.all()
     if not all_drinks:
         abort(404)
-    drinks = {drink.id: drink.short() for drink in all_drinks}
+    drinks = [drink.short() for drink in all_drinks]
 
     return jsonify({
         'success': True,
@@ -63,7 +63,7 @@ def retrieve_drink_details(token):
     all_drinks = Drink.query.all()
     if not all_drinks:
         abort(404)
-    drinks = {drink.id: drink.long() for drink in all_drinks}
+    drinks = [drink.long() for drink in all_drinks]
 
     return jsonify({
         'success': True,
@@ -84,14 +84,23 @@ def retrieve_drink_details(token):
 def add_drinks(token):
     body = request.get_json()
     title = body.get('title', None)
-    recipe = body.get('recipe', None)
+    recipe_json = body.get('recipe', None)
 
-    drink = Drink(title=title, recipe=recipe)
-    drink.insert()
+    try:
+        if title == '' or title is None\
+            or recipe_json is None\
+            or not isinstance(recipe_json, list):
+                raise ValueError
+        recipe = json.dumps(recipe_json)
+        drink = Drink(title=title, recipe=recipe)
+        drink.insert()
+    except Exception:
+        abort(422)
 
     return jsonify({
         'success': True,
-        'drinks': drink.long()
+        'drinks': drink.long(),
+        'created': drink.id
     })
 
 
@@ -108,18 +117,24 @@ def add_drinks(token):
 '''
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
-def update_existing_drink(drink_id):
+def update_existing_drink(token, drink_id):
+    print('drink id is: ', drink_id)
     drink = Drink.query.filter(Drink.id==drink_id).one_or_none()
     if not drink:
         abort(404)
     body = request.get_json()
-    drink.title = body.get('title')
-    drink.recipe = body.get('recipe')
+    updated_title = body.get('title')
+    updated_recipe = body.get('recipe')
+    print('Updated recipe type: ', type(updated_recipe))
+
+    drink.title = updated_title
+    drink.recipe = json.dumps(updated_recipe)
     drink.update()
 
     return jsonify({
         'success': True,
-        'drinks': drink
+        'drinks': drink.long(),
+        'updated': drink.id
     })
 
 
