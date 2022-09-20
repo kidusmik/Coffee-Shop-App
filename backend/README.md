@@ -220,9 +220,9 @@ Errors are returned as JSON objects in the following format:
 ### Endpoints
 
 #### GET /drinks
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Fetches a list of short representations of drinks.
 - Request Arguments: None
-- Returns: An object with two keys, `success` with value `True` and `categories`, that contains an object of `id: category_string` key: value pairs.
+- Returns: JSON object with two keys, `success` with value `True` and `drinks`, that contains a list of drinks.
 - `curl 127.0.0.1:5000/drinks -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
 
 ```json
@@ -282,9 +282,11 @@ Errors are returned as JSON objects in the following format:
 ```
 
 #### GET /drinks-details
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with two keys, `success` with value `True` and `categories`, that contains an object of `id: category_string` key: value pairs.
+- Fetches a list of long representations of drinks.
+- Request Arguments:
+  - token (str): The JWT token will be passed to be checked and verified
+         if it is valid and contains the appropiriate permissions.
+- Returns: JSON object with two keys, `success` with value `True` and `drinks`, that contains a list of drinks.
 - `curl 127.0.0.1:5000/drinks-detail -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
 
 ```json
@@ -350,12 +352,18 @@ Errors are returned as JSON objects in the following format:
 ```
 
 #### POST /drinks
-- General:
-    - Creates a new question using the submitted `question`, `answer`, `category` and `difficulty` values. On success it returns a success value and a message. If any of the keys is missing or any of the values is either empty string or `None` it returns an error with code `422`. 
+- Creates a new drink using the submitted `title` and `recipe` parameters.
+- Request Arguments:
+  - token (str): The JWT token will be passed to be checked and verified
+         if it is valid and contains the appropiriate permissions.
+- Returns: 
+  - On Success: 
+    - JSON object with two keys, `success` value of `True` and `ID` of the created drink.
+  - On Failiure:
+    - Aborts with http error code `422` if any of the paramters are missing or unsupported
 
 - `curl 127.0.0.1:5000/drinks -X POST -H "Content-Type: application/json" -d '{"recipe": [{"color": "grey", "name": "Milk", "parts": 1}, {"color": "brown", "name": "Coffee", "parts": 3}], "title": "Machiatto"}' -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
 
-Returns success:
 ```json
 {
   "created": 2, 
@@ -382,8 +390,17 @@ Returns success:
 ```
 
 #### PATCH /drinks/{drink_id}
-- General:
-    - Updates the question of the given ID if it exists, Returns success value and a message.
+- Creates a new drink using the submitted `title` and `recipe` parameters.
+- Request Arguments:
+  - token (str): The JWT token will be passed to be checked and verified
+         if it is valid and contains the appropiriate permissions.
+  - drink_id (int): The ID of the drink to be deleted
+- Returns: 
+  - On Success: 
+    - JSON object with two keys, `success` value of `True` and `ID` of the created drink.
+  - On Failiure:
+    - Aborts with http error code `404` if the `ID` of the drink isn't found
+    - Aborts with http error code `422` if both the `title` and `recipe` paramaters are missing.
     
 - `curl -X PATCH http://127.0.0.1:5000/drinks/1 -H "Content-Type: application/json" -d '{"title": "Not Water"}' -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
 
@@ -408,8 +425,16 @@ Returns success:
 ```
 
 #### DELETE /drinks/{drink_id}
-- General:
-    - Deletes the drink of the given ID if it exists, Returns success value and a message.
+- Deletes a drink using the submitted `id`.
+- Request Arguments:
+  - token (str): The JWT token will be passed to be checked and verified
+         if it is valid and contains the appropiriate permissions.
+  - drink_id (int): The ID of the drink to be updated
+- Returns: 
+  - On Success: 
+    - JSON object with two keys, `success` value of `True` and `ID` of the deleted drink.
+  - On Failiure:
+    - Aborts with http error code `404` if the `ID` of the drink isn't found
     
 - `curl -X DELETE http://127.0.0.1:5000/drinks/1 -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImxVYVRGaEd0ZHhMWE1EVk5XZy1yVSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MnhzcDN1Ni51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkwNzcwOTQyNDMxODUzNjY2MDkiLCJhdWQiOiJjb2ZmZWVzIiwiaWF0IjoxNjYzNTgxODU1LCJleHAiOjE2NjM2NjgyNTUsImF6cCI6ImhxQWxhVnVGRUVObjE5NGVMWkFxaVhXUmdjUGh6dlVOIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.UVwqwn2lfGNbP7-jnn8QqYKWZVdKcv3kYPok54OxKJS6ifkseUgdw3aXb9_fsgsQVhrMDwUSXvo7Auo71OLwz3qFE4T7L7X95-UkbBOeiEPb5Bgu-Jcmn90gxDEcstvPP8zBydKeI0hP1aq77hH4Zov09MoWO3KBrRzVZwUGV2Dx2JuPnfRF2fl8CRFZp6o5i9V0v-RqqCLB3wDHFNtMTR-8SmCrio7tyzziThKe_BR4O2OVG9iNNGsqmkA0nPyE8d-zAJ-iVDGBmKSghpDht9g0gMgbW0PbDphWfPpVwzpmdQCeey1rgHgwcpJE2STtQTZ9TYusDmMEx2t0qk44_Q"`
 
