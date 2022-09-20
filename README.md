@@ -48,7 +48,7 @@ By default, the frontend will run on `http://127.0.0.1:8100/`.
 The endpoints are tested with [Postman](https://getpostman.com).
 
 To run the tests:
-- Import the postman collection `./udacity-fsnd-udaspicelatte-kidus.postman_collection`
+- Import the postman collection `./backend/udacity-fsnd-udaspicelatte.postman_collection.json`
 - Run the collection
 
 ## API Reference
