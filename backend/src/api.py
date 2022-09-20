@@ -26,6 +26,17 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.after_request
 def after_request(response):
+    """
+    This is part of the CORS implementation and modifies the response after
+    the request. This adds the Content-Type and Authorization headers and the
+    also allowed request types.
+
+    Arguments:
+        response (obj): The response object which include response headers.
+
+    Returns:
+        response (obj): The modified response object.
+    """
     response.headers.add('Access-Control-Allow-Headers',
                          'Content-Type, Authorization')
     response.headers.add('Access-Control-Allow-Headers',
