@@ -7,13 +7,20 @@ from urllib.request import urlopen
 from settings import ALGORITHMS, API_AUDIENCE, AUTH0_DOMAIN
 
 # AuthError Exception
-'''
-AuthError Exception
-A standardized way to communicate auth failure modes
-'''
 
 
 class AuthError(Exception):
+    """Defines a class AuthError Exception, A standardized way to communicate
+    auth failure modes.
+
+    Attributes:
+        error (dict): Contains error information such as code and description
+        status_code (int): HTTP error status code
+
+    Arguments:
+        error (dict): The error information
+        status_code (int): The HTTP error status code
+    """
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
@@ -21,17 +28,23 @@ class AuthError(Exception):
 
 # Auth Header
 
-'''
-@TODO implement get_token_auth_header() method
-    it should attempt to get the header from the request
-        it should raise an AuthError if no header is present
-    it should attempt to split bearer and the token
-        it should raise an AuthError if the header is malformed
-    return the token part of the header
-'''
-
-
+# Most of this code is taken from Udacity class notes and exercises
 def get_token_auth_header():
+    """
+    Attemps to get the header from the request, splits the header into bearer
+    and token to get the token.
+
+    Arguments:
+        None
+
+    Returns:
+        - token (str): The token that is fetched by splitting the header.
+
+    Raises:
+        - AuthError (401):
+            - If authorization header is missing
+            - If the token is not a bearer token or if the token is not found.
+    """
     auth = request.headers.get('Authorization', None)
     if not auth:
         raise AuthError({
@@ -62,21 +75,22 @@ def get_token_auth_header():
     return token
 
 
-'''
-@TODO implement check_permissions(permission, payload) method
-    @INPUTS
-        permission: string permission (i.e. 'post:drink')
-        payload: decoded jwt payload
-
-    it should raise an AuthError if permissions are not included in the payload
-        !!NOTE check your RBAC settings in Auth0
-    it should raise an AuthError if the requested permission string is not in
-     the payload permissions array
-    return true otherwise
-'''
-
-
+# Most of this code is taken from Udacity class notes and exercises
 def check_permissions(permission, payload):
+    """
+    Checks if the payload includes the permission that is needed.
+
+    Arguments:
+        permission (str): The Auth0 RBAC permission
+        payload (str): the JWT token
+
+    Returns:
+        - True on success
+
+    Raises:
+        - AuthError (400): If the permissions list is not found in the payloadd
+        - AuthError (403): If the permission is not found
+    """
     if 'permissions' not in payload:
         raise AuthError({
             'code': 'invalid_claims',
@@ -91,23 +105,29 @@ def check_permissions(permission, payload):
     return True
 
 
-'''
-@TODO implement verify_decode_jwt(token) method
-    @INPUTS
-        token: a json web token (string)
-
-    it should be an Auth0 token with key id (kid)
-    it should verify the token using Auth0 /.well-known/jwks.json
-    it should decode the payload from the token
-    it should validate the claims
-    return the decoded payload
-
-    !!NOTE urlopen has a common certificate error described here:
-     https://stackoverflow.com/questions/50236117/scraping-ssl-certificate-verify-failed-error-for-http-en-wikipedia-org
-'''
-
-
+# Most of this code is taken from Udacity class notes and exercises
 def verify_decode_jwt(token):
+    """
+    Checks if the token is an Auth0 token with key id (kid), verifies
+    the token using Auth0 /.well-known/jwks.json, decodes the payload
+    from the token and validates the claims.
+
+    Arguments:
+        token (str): The JWT token
+
+    Returns:
+        - payload (str): The decoded payload
+
+    Raises:
+        - AuthError (400):
+            - If there is no token found or is unable to parse the token
+            - If kid doesn't match
+
+        - AuthError (401):
+            - If kid is not found
+            - If token has expired
+            - If there's an incorrect claim
+    """
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
     try:
@@ -169,21 +189,19 @@ def verify_decode_jwt(token):
             }, 400)
 
 
-'''
-@TODO implement @requires_auth(permission) decorator method
-    @INPUTS
-        permission: string permission (i.e. 'post:drink')
-
-    it should use the get_token_auth_header method to get the token
-    it should use the verify_decode_jwt method to decode the jwt
-    it should use the check_permissions method validate claims and
-     check the requested permission
-    return the decorator which passes the decoded payload to the
-     decorated method
-'''
-
-
 def requires_auth(permission=''):
+    """
+    Gets the token using get_token_auth_header function, decodes the jwt
+    using the verify_decode_jwt function and validate claims and
+     check the requested permission using the check_permissions function.
+
+    Arguments:
+        permission (str): The Auth0 RBAC permission
+
+    Returns:
+        - The decorator which passes the decoded payload to the
+     decorated method
+    """
     def requires_auth_decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
