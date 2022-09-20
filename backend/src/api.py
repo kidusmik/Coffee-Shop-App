@@ -146,7 +146,7 @@ def update_existing_drink(token, drink_id):
     if title:
         drink.title = title
     if recipe:
-        drink.recipe = recipe
+        drink.recipe = json.dumps(recipe)
     drink.update()
 
     return jsonify({
