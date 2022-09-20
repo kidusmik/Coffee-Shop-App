@@ -1,3 +1,8 @@
+"""
+This is the "auth" file.
+
+The auth file handles authorization and authentication of the app.
+"""
 import json
 from flask import request, _request_ctx_stack
 from functools import wraps
@@ -192,15 +197,15 @@ def verify_decode_jwt(token):
 def requires_auth(permission=''):
     """
     Gets the token using get_token_auth_header function, decodes the jwt
-    using the verify_decode_jwt function and validate claims and
-     check the requested permission using the check_permissions function.
+    using the verify_decode_jwt function and validate claims and check the
+    requested permission using the check_permissions function.
 
     Arguments:
         permission (str): The Auth0 RBAC permission
 
     Returns:
         - The decorator which passes the decoded payload to the
-     decorated method
+          decorated method
     """
     def requires_auth_decorator(f):
         @wraps(f)
