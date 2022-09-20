@@ -4,10 +4,7 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-
-AUTH0_DOMAIN = 'dev-w2xsp3u6.us.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'coffees'
+from settings import ALGORITHMS, API_AUDIENCE, AUTH0_DOMAIN
 
 # AuthError Exception
 '''
