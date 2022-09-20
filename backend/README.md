@@ -71,6 +71,8 @@ flask --reload
 
 - Authentication: The API requires authentication of users.
 
+> NB: The Authorization token used here is a token for the role `Manager` and will expire on October 19, 2022
+
 ### Error Handling
 
 The API handles Authorization, Resource and Server errors.
@@ -471,5 +473,7 @@ The app uses Auth0 authentication, with `five` permissions and `two` roles.
 The endpoints are tested with [Postman](https://getpostman.com).
 
 To run the tests:
-- Import the postman collection `./udacity-fsnd-udaspicelatte-kidus.postman_collection`
+- Import the postman collection `./backend/udacity-fsnd-udaspicelatte.postman_collection.json`
 - Run the collection
+
+> NB: the Authorization tokens will expire on October 19, 2022

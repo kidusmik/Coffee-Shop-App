@@ -51,6 +51,8 @@ To run the tests:
 - Import the postman collection `./backend/udacity-fsnd-udaspicelatte.postman_collection.json`
 - Run the collection
 
+> NB: the Authorization tokens will expire on October 19, 2022
+
 ## API Reference
 
 - Base URL: At present this app can only be run locally and is not hosted as a base URL. The backend app is hosted at the default, `http://127.0.0.1:5000/`, which is set as a proxy in the frontend configuration. 
